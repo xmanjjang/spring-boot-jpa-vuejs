@@ -20,10 +20,16 @@ public class MemberValidator {
 
     public void checkUsedPassword(String encNewPw, Member member) {
         // 이전에 사용했던 비번 확인
-        if (passwordEncoder.matches(encNewPw, member.getMbrPw()) ||
-                passwordEncoder.matches(encNewPw, member.getMbrPwOld1()) ||
-                passwordEncoder.matches(encNewPw, member.getMbrPwOld2())) {
+        if (match(encNewPw, member.getMbrPw()) ||
+                match(encNewPw, member.getMbrPwOld1()) ||
+                match(encNewPw, member.getMbrPwOld2())) {
             throw new BizException("이전에 사용한 비밀번호 입니다.");
         }
+    }
+
+    private boolean match(String pwd1, String pwd2) {
+        if(StringUtils.isEmpty(pwd2) || !pwd2.contains("{")) return false;
+
+        return passwordEncoder.matches(pwd1, pwd2);
     }
 }

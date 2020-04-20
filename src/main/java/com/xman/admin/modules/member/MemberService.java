@@ -60,10 +60,10 @@ public class MemberService implements UserDetailsService {
     public Member insertMember(Member member) {
         Assert.notNull(member, "member is null");
         Assert.notNull(member.getRoleCd(), "roleCd is null");
-        Assert.notNull(member.getMbrPw(), "mbrPw is null");
+        Assert.notNull(member.getNewPw(), "newPw is null");
         Assert.notNull(member.getMbrNm(), "mbrNm is null");
 
-        member.setMbrPw(member.getMbrPw());
+        member.setMbrPw(passwordEncoder.encode(member.getNewPw()));
         member.setPwApplyDt(dateUtils.getToday());
         return memberRepository.save(member);
     }

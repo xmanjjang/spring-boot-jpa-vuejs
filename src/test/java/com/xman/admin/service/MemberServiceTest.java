@@ -8,6 +8,7 @@ import com.xman.admin.utils.TestObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,9 @@ class MemberServiceTest extends AbstractServiceTest {
     @Autowired
     private MemberService memberService;
     private Member MEMBER;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @BeforeEach
     public void setUp() {
@@ -111,13 +115,13 @@ class MemberServiceTest extends AbstractServiceTest {
     void IllegalArgumentException_mbrPw_isNull() {
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> {
             Member member = TestObjectFactory.getMember()
-                    .mbrPw(null)
+                    .newPw(null)
                     .build();
 
             memberService.insertMember(member);
         });
 
-        assertThat(illegalArgumentException.getMessage()).isEqualTo("mbrPw is null");
+        assertThat(illegalArgumentException.getMessage()).isEqualTo("newPw is null");
     }
 
     @DisplayName("insertMember_mbrNm is null")
@@ -136,10 +140,10 @@ class MemberServiceTest extends AbstractServiceTest {
     @Test
     @DisplayName("updateMember_정상케이스")
     public void updateMember() {
-        Member member = TestObjectFactory.getMember()
+        Member member = modelMapper.map(TestObjectFactory.getMemberDto()
                 .mbrId(MEMBER.getMbrId())
                 .mbrNm("수정11")
-                .build();
+                .build(), Member.class);
 
         memberService.updateMember(member);
         initEm();
@@ -149,15 +153,14 @@ class MemberServiceTest extends AbstractServiceTest {
         assertThat(findMember.getMbrNm()).isEqualTo(member.getMbrNm());
     }
 
-
     @Test
     @DisplayName("updateMember_비밀번호변경")
     public void updateMember_a() {
-        Member member = TestObjectFactory.getMember()
+        Member member = modelMapper.map(TestObjectFactory.getMemberDto()
                 .mbrId(MEMBER.getMbrId())
                 .mbrNm("수정11")
                 .newPw("1234")
-                .build();
+                .build(), Member.class);
 
         memberService.updateMember(member);
         initEm();
@@ -181,7 +184,6 @@ class MemberServiceTest extends AbstractServiceTest {
         Member findMember = memberRepository.findById(MEMBER.getMbrId()).get();
         assertThat(passwordEncoder.matches(member.getNewPw(), findMember.getMbrPw()));
     }
-
 
     @Test
     @DisplayName("deleteMember")

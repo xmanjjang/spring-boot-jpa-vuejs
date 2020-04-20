@@ -86,7 +86,7 @@ class MenuServiceTest extends AbstractServiceTest {
 
     @Test
     public void insertSubMenu() {
-        String subMenuId = UPMENU_ID + "00";
+        String subMenuId = UPMENU_ID + "01";
         Menu subMenu = TestObjectFactory.getSubMenu()
                 .menuId("")
                 .upmenuId(UPMENU_ID)

@@ -3,6 +3,7 @@ package com.xman.admin.utils;
 import com.xman.admin.constants.RoleCode;
 import com.xman.admin.constants.UseYnCode;
 import com.xman.admin.modules.member.Member;
+import com.xman.admin.modules.member.MemberDto;
 import com.xman.admin.modules.menu.Menu;
 import com.xman.admin.modules.role.Role;
 import com.xman.admin.modules.role.RoleMenu;
@@ -25,6 +26,19 @@ public class TestObjectFactory {
                 .company("company")
                 .mbrPwOld1("mbrPwOld1")
                 .mbrPwOld2("mbrPwOld2")
+                .newPw("mbrPw")
+                ;
+    }
+
+    public static MemberDto.Model.ModelBuilder getMemberDto() {
+        return MemberDto.Model.builder()
+                .mbrId("testAdmin")
+                .mbrNm("어드민")
+                .useYn("Y")
+                .roleCd(RoleCode.ADMIN.name())
+                .email("test@email.com")
+                .tel("01012341234")
+                .company("company")
                 ;
     }
 

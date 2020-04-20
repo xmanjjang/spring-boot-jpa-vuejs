@@ -1,16 +1,19 @@
 package com.xman.admin.modules.member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class MemberDto {
     @Getter
     @Setter
-    static class Model {
+    @Builder
+    public static class Model {
         @Size(max = 10, message = "mbrId의 크기가 10보다 큽니다")
         @NotNull(message = "mbrId의 값이 없습니다.")
         private String mbrId;
@@ -42,7 +45,7 @@ public class MemberDto {
         private String newPw;
 
         private String remark;
-        private String mbrCompany;
+        private String company;
         private String mbrDptmt;
     }
 
@@ -55,5 +58,11 @@ public class MemberDto {
 
         @Size(max = 512, message = "mbrPw의 크기가 512보다 큽니다")
         private String newPw;
+    }
+
+    @Getter
+    @Setter
+    public static class Delete {
+        private List<String> memberIds;
     }
 }

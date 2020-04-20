@@ -50,8 +50,14 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteMember(List<String> memberIds) {
-        memberService.deleteMembers(memberIds);
+    public ResponseEntity deleteMember(@RequestBody MemberDto.Delete params) {
+        memberService.deleteMembers(params.getMemberIds());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/companies")
+    public ResponseEntity findCompanies() {
+        List<String> companies = memberService.findCompanies();
+        return ResponseEntity.ok(companies);
     }
 }
