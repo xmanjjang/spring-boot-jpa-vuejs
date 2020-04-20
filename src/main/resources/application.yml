@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@nexgrid2.iptime.org:11522:ADCBDBO
+    username: gfn
+    password: gfn
+  http:
+    encoding:
+      force: true
+
+server:
+
+  port: 8082
